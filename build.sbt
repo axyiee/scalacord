@@ -12,11 +12,11 @@ ThisBuild / tlSonatypeUseLegacyHost := false
 ThisBuild / scalaVersion := "3.2.1"
 
 lazy val deps = new {
-    val cats = Seq(
+    val typelevel = Seq(
         libraryDependencies ++= Seq(
             "org.typelevel" %%% "cats-effect" % "3.3.14",
             "org.typelevel" %%% "cats-core" % "2.8.0",
-            "org.typelevel" %%% "mouse" % "1.2.0",
+            "org.typelevel" %%% "spire" % "0.18.0"
         )
     )
     val stream = Seq(libraryDependencies ++= Seq("co.fs2" %%% "fs2-core" % "3.3.0"))
@@ -43,19 +43,19 @@ lazy val common = crossProject(JVMPlatform, NativePlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("common"))
     .settings(name := "scalacord-common")
-    .settings(deps.cats ++ deps.json ++ deps.logging ++ deps.stream ++ deps.test)
+    .settings(deps.typelevel ++ deps.json ++ deps.logging ++ deps.stream ++ deps.test)
 
 lazy val rest = crossProject(JVMPlatform, NativePlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("rest"))
     .settings(name := "scalacord-rest")
-    .settings(deps.cats ++ deps.json ++ deps.logging ++ deps.stream ++ deps.http ++ deps.test)
+    .settings(deps.typelevel ++ deps.json ++ deps.logging ++ deps.stream ++ deps.http ++ deps.test)
 
 lazy val gateway = crossProject(JVMPlatform, NativePlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("gateway"))
     .settings(name := "scalacord-gateway")
-    .settings(deps.cats ++ deps.json ++ deps.logging ++ deps.stream ++ deps.http ++ deps.test)
+    .settings(deps.typelevel ++ deps.json ++ deps.logging ++ deps.stream ++ deps.http ++ deps.test)
 
 lazy val core = crossProject(JVMPlatform, NativePlatform, JSPlatform)
     .crossType(CrossType.Pure)
