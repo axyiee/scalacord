@@ -31,6 +31,9 @@ enum UserFlag(val value: Int) {
     case CertifiedModerator extends UserFlag(1 << 18)
 
     case BotHasInteractions extends UserFlag(1 << 19)
+
+    export lol.syntax.scalacord.common.entity.userFlagsDecoder
+    export lol.syntax.scalacord.common.entity.userFlagsEncoder
 }
 
 given userFlagsEncoder: Encoder[List[UserFlag]] with

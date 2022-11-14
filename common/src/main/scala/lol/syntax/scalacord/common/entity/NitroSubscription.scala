@@ -10,7 +10,10 @@ enum NitroSubscription(val value: Int) {
 
     case Nitro extends NitroSubscription(2)
 
-    case Basic extends NitroSubscription(3)
+    case Basic extends NitroSubscription(3) 
+
+    export lol.syntax.scalacord.common.entity.subscriptionEncoder
+    export lol.syntax.scalacord.common.entity.subscriptionDecoder
 }
 
 given subscriptionEncoder: Encoder[NitroSubscription] with

@@ -3,7 +3,7 @@ package lol.syntax.scalacord.common.entity
 import io.circe.Decoder.Result
 import io.circe.{Decoder, Encoder, HCursor, Json}
 import lol.syntax.scalacord.common.datatype.*
-import lol.syntax.scalacord.common.util.insert
+import lol.syntax.scalacord.common.util.{context, optionContext, withOptional, HasEncoderContext}
 
 case class Profile(
     bannerHash: Optional[String] = Optional.missing,
@@ -29,23 +29,25 @@ case class User(
 
 given userEncoder: Encoder[User] with
     override def apply(user: User): Json =
-        val values = List.newBuilder[(String, Json)]
-        insert[Snowflake](values, "id", user.id)
-        insert(values, "username", user.username)
-        insert(values, "discriminator", user.discriminator)
-        insert(values, "avatar", user.avatarHash)
-        insert(values, "mfa_enabled", user.has2FA)
-        insert(values, "bot", user.isBot)
-        insert(values, "system", user.isSystem)
-        insert(values, "banner", user.profile.bannerHash)
-        insert(values, "accent_color", user.profile.accentColor)
-        insert(values, "locale", user.locale)
-        insert(values, "verified", user.isVerified)
-        insert(values, "email", user.email)
-        insert(values, "flags", user.profile.flags)
-        insert(values, "premium_type", user.profile.subscription)
-        insert(values, "public_flags", user.profile.publicFlags)
-        Json.obj(values.result()*)
+        val x: List[Option[HasEncoderContext[?]]] =
+            println(("id", user.id).context)
+            (("id", user.id).context)
+                :: (("username", user.username).context)
+                :: (("discriminator", user.discriminator).context)
+                :: (("avatar", user.avatarHash).context)
+                :: (("mfa_enabled", user.has2FA).optionContext)
+                :: (("bot", user.isBot).optionContext)
+                :: (("system", user.isSystem).optionContext)
+                :: (("banner", user.profile.bannerHash).optionContext)
+                :: (("accent_color", user.profile.accentColor).optionContext)
+                :: (("locale", user.locale).optionContext)
+                :: (("verified", user.isVerified).optionContext)
+                :: (("email", user.email).optionContext)
+                :: (("flags", user.profile.flags).optionContext)
+                :: (("premium_type", user.profile.subscription).optionContext)
+                :: (("public_flags", user.profile.publicFlags).optionContext)
+                :: Nil
+        x.withOptional
 
 given userDecoder: Decoder[User] with
     final def apply(cursor: HCursor): Result[User] =

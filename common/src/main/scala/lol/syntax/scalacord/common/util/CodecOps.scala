@@ -1,24 +1,22 @@
 package lol.syntax.scalacord.common.util
 
-import io.circe.{Decoder, Encoder, HCursor, Json}
-import lol.syntax.scalacord.common.datatype.{Keep, Optional}
+import io.circe.{Encoder, Json}
+import lol.syntax.scalacord.common.datatype.{Keep, Missing, Optional}
 
-type ListBuffer[A] = scala.collection.mutable.Builder[A, List[A]]
+case class HasEncoderContext[A: Encoder](encoder: Encoder[A], key: String, value: A)
 
-private[common] def insert[A: Encoder](
-    buffer: ListBuffer[(String, Json)],
-    name: String,
-    value: Optional[A]
-)(using encoder: Encoder[A]) =
-    value match {
-        case Keep(_) =>
-            buffer += {
-                (name, value.toOption.map(v => encoder(v)).getOrElse(Json.Null))
-            }
-        case _ => ()
-    }
+extension [A: Encoder](seq: (String, A))
+    def context: Option[HasEncoderContext[A]] =
+        Some(HasEncoderContext(Encoder.apply[A], seq._1, seq._2))
 
-private[common] def insert[A: Encoder](buffer: ListBuffer[(String, Json)], name: String, value: A)(
-    using encoder: Encoder[A]
-) =
-    buffer += { (name, encoder.apply(value)) }
+extension [A: Encoder](seq: (String, Optional[A]))
+    def optionContext: Option[HasEncoderContext[Option[A]]] =
+        if seq._2 == Missing then None
+        else Some(HasEncoderContext(Encoder.encodeOption[A], seq._1, seq._2.toOption))
+
+extension (list: List[Option[HasEncoderContext[?]]])
+    def withOptional: Json =
+        val l = list.flatten
+            .filterNot(_.value == Missing)
+            .map(ctx => (ctx.key, ctx.encoder.apply(ctx.value)))
+        Json.obj(l*)
