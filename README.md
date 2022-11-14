@@ -1,3 +1,3 @@
 # scalacord
 
-An asynchronous, simple and functional approach for consuming the Discord API.
+An asynchronous, simple and functional typelevel approach for consuming the Discord API.
