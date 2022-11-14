@@ -3,6 +3,7 @@ package lol.syntax.scalacord.common.entity
 import io.circe.Decoder.Result
 import io.circe.{Decoder, Encoder, HCursor, Json}
 
+/** The flags (can also be represented as badges) for an user account. */
 enum UserFlag(val value: Int) {
     case Staff extends UserFlag(1 << 0)
 

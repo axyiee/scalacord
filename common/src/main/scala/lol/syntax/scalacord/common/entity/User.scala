@@ -1,10 +1,21 @@
 package lol.syntax.scalacord.common.entity
 
-import io.circe.Decoder.Result
 import io.circe.{Decoder, Encoder, HCursor, Json}
 import lol.syntax.scalacord.common.datatype.*
-import lol.syntax.scalacord.common.util.{context, optionContext, withOptional, HasEncoderContext}
+import lol.syntax.scalacord.common.util.*
 
+/** Reference about an user profile.
+  * @param bannerHash
+  *   The user's banner hash
+  * @param accentColor
+  *   The user's banner color encoded as an integer representation of hexadecimal color code
+  * @param subscription
+  *   The type of Nitro subscription on a user's account
+  * @param publicFlags
+  *   The public flags on an user's account
+  * @param flags
+  *   The flags on an user's account
+  */
 case class Profile(
     bannerHash: Optional[String] = Optional.missing,
     accentColor: Optional[Color] = Optional.missing,
@@ -13,6 +24,31 @@ case class Profile(
     flags: Optional[List[UserFlag]] = Optional.missing,
 )
 
+/** Reference about an user on Discord.
+  *
+  * @param id
+  *   The user's id
+  * @param username
+  *   The user's username, not unique across the platform
+  * @param discriminator
+  *   The user's 4-digit discord-tag
+  * @param avatarHash
+  *   The user's avatar hash
+  * @param isBot
+  *   Whether the user belongs to an OAuth2 application
+  * @param isSystem
+  *   Whether the user is an Official Discord System user (part of the urgent message system)
+  * @param isVerified
+  *   Whether the email on this account has been verified
+  * @param has2FA
+  *   Whether the user has two factor enabled on their account
+  * @param email
+  *   The user's email
+  * @param locale
+  *   The user's chosen language option
+  * @param profile
+  *   The user's profile
+  */
 case class User(
     id: Snowflake = Snowflake.MinValue,
     username: String = "",
@@ -26,6 +62,11 @@ case class User(
     locale: Optional[String] = Optional.missing,
     profile: Profile = Profile()
 )
+
+object User {
+    export lol.syntax.scalacord.common.entity.userEncoder
+    export lol.syntax.scalacord.common.entity.userDecoder
+}
 
 given userEncoder: Encoder[User] with
     override def apply(user: User): Json =
@@ -50,7 +91,7 @@ given userEncoder: Encoder[User] with
         x.withOptional
 
 given userDecoder: Decoder[User] with
-    final def apply(cursor: HCursor): Result[User] =
+    final def apply(cursor: HCursor): Decoder.Result[User] =
         for {
             id            <- cursor.get[Snowflake]("id")
             username      <- cursor.get[String]("username")

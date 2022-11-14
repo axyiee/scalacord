@@ -3,6 +3,7 @@ package lol.syntax.scalacord.common.entity
 import io.circe.Decoder.Result
 import io.circe.{Decoder, Encoder, HCursor, Json}
 
+/** The active Discord Nitro subscription for an user account. */
 enum NitroSubscription(val value: Int) {
     case None extends NitroSubscription(0)
 
