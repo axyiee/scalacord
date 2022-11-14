@@ -25,4 +25,13 @@ class SnowflakeSuite extends CatsEffectSuite {
             )
             .flatMap { case (a, b) => IO(assertEquals(a, b)) }
     }
+    test("its timestamp can be extracted") {
+        IO(Instant.now())
+            .flatMap(now => (IO.fromEither(Snowflake(now)), IO.pure(now)).tupled)
+            .flatMap { case (snowflake, instant) => IO(assert(snowflake matches instant)) }
+    }
+    test("minimum value matches discord's epoch") {
+        IO(Snowflake.MinValue)
+            .flatMap(min => IO(assert(min matches Instant.ofEpochMilli(Snowflake.Epoch.toLong))))
+    }
 }

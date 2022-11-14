@@ -17,7 +17,7 @@ object Hello {
 }
 
 class OptionalSuite extends CatsEffectSuite {
-    test("it don't encode when Missing is provided") {
+    test("it doesn't encode when Missing is provided") {
         IO(Hello(Missing, "Hello", Keep(Some(252525)), "Hi", Keep(None)))
             .flatMap(hello => IO((hello, hello.asJson)))
             .flatMap((hello, json) => json.as[Hello] match {

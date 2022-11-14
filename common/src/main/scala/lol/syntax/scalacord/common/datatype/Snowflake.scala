@@ -4,6 +4,7 @@ import lol.syntax.scalacord.common.util.ZeroType
 import spire.math.{UByte, ULong}
 import io.circe.{Encoder, Decoder, HCursor, Json}
 import io.circe.Decoder.Result
+import scala.concurrent.duration.DurationInt
 
 import java.time.Instant
 
@@ -36,6 +37,12 @@ object Snowflake extends ZeroType[ULong] {
     /** The milliseconds representation of Discord Epoch (2015). */
     val Epoch: ULong = ULong(1420070400000L)
 
+    /** The minimum value for a snowflake. */
+    val MinValue = apply(Instant.ofEpochMilli(Epoch.toLong)).toOption.get
+
+    /** The maximum value for a snowflake. */
+    val MaxValue = Snowflake(ULong(Long.MaxValue))
+
     extension (self: Type)
         /** Returns how many milliseconds has passed since 2015 until this snowflake was generated.
           */
@@ -55,6 +62,16 @@ object Snowflake extends ZeroType[ULong] {
 
         /** Returns the increment identification of this snowflake. */
         def incrementSize: Int = (self.value.toLong & 0xfff).toInt
+
+        // credits for this workaround: kordlib/kord
+        // snowflake timestamps aren't 100% accurate, it can be off by 1ms
+        def matches(instant: Instant): Boolean =
+            val delta = 1.millisecond - 1.nanosecond
+            val range = instant
+                .minusMillis(delta.toMillis)
+                .toEpochMilli to instant.plusMillis(delta.toMillis).toEpochMilli
+            range.contains(self.timestamp.toEpochMilli)
+
 }
 
 given snowflakeOrdered: Ordering[Snowflake] with
