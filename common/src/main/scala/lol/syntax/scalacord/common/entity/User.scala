@@ -70,8 +70,7 @@ object User {
 
 given userEncoder: Encoder[User] with
     override def apply(user: User): Json =
-        val x: List[Option[HasEncoderContext[?]]] =
-            println(("id", user.id).context)
+        val elems: List[Option[HasEncoderContext[?]]] =
             (("id", user.id).context)
                 :: (("username", user.username).context)
                 :: (("discriminator", user.discriminator).context)
@@ -88,7 +87,7 @@ given userEncoder: Encoder[User] with
                 :: (("premium_type", user.profile.subscription).optionContext)
                 :: (("public_flags", user.profile.publicFlags).optionContext)
                 :: Nil
-        x.withOptional
+        elems.withOptional
 
 given userDecoder: Decoder[User] with
     final def apply(cursor: HCursor): Decoder.Result[User] =
