@@ -72,6 +72,8 @@ object Snowflake extends ZeroType[ULong] {
                 .toEpochMilli to instant.plusMillis(delta.toMillis).toEpochMilli
             range.contains(self.timestamp.toEpochMilli)
 
+    export lol.syntax.scalacord.common.datatype.snowflakeEncoder
+    export lol.syntax.scalacord.common.datatype.snowflakeDecoder
 }
 
 given snowflakeOrdered: Ordering[Snowflake] with

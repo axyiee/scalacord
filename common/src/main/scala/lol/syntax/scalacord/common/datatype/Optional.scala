@@ -20,22 +20,31 @@ import io.circe.DecodingFailure.Reason.MissingField
   */
 sealed trait Optional[+A] {
     def toOption: Option[A]
+    
+    def map[B](action: Option[A] => B): Option[B]
 }
 
 /** Optional value that represents a value that must not be encoded at all. */
 case object Missing extends Optional[Nothing] {
     override def toOption: None.type = None
+
+    override def map[B](action: Option[Nothing] => B): Option[B] = None
 }
 
 /** Optional value that represents a value that must be encoded, even if [[Json.Null]]. */
 case class Keep[+A](value: Option[A]) extends Optional[A] {
     override def toOption: value.type = value
+
+    override def map[B](action: Option[A] => B): Option[B] = Some(action(value))
 }
 
 object Optional {
     inline def keep[A](value: Option[A]): Optional[A] = Keep(value)
 
     inline def missing[A]: Optional[A] = Missing.asInstanceOf
+    
+    export lol.syntax.scalacord.common.datatype.optionalEncoder
+    export lol.syntax.scalacord.common.datatype.optionalDecoder
 }
 
 extension (json: Json)
