@@ -25,8 +25,8 @@ lazy val deps = new {
     )
     val test = Seq(
         libraryDependencies ++= Seq(
-            "org.scalameta" %%% "munit" % "0.7.29" % Test,
-            "org.typelevel" %%% "munit-cats-effect-3" % "1.0.7" % Test,
+            "org.scalameta" %%% "munit" % "1.0.0-M6" % Test,
+            "org.typelevel" %%% "munit-cats-effect" % "2.0.0-M3" % Test,
         )
     )
     val json = Seq(
@@ -39,25 +39,25 @@ lazy val deps = new {
     val logging = Seq(libraryDependencies ++= Seq("org.typelevel" %%% "log4cats-core" % "2.5.0"))
 }
 
-lazy val common = crossProject(JVMPlatform, JSPlatform)
+lazy val common = crossProject(JVMPlatform, NativePlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("common"))
     .settings(name := "scalacord-common")
     .settings(deps.cats ++ deps.json ++ deps.logging ++ deps.stream ++ deps.test)
 
-lazy val rest = crossProject(JVMPlatform, JSPlatform)
+lazy val rest = crossProject(JVMPlatform, NativePlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("rest"))
     .settings(name := "scalacord-rest")
     .settings(deps.cats ++ deps.json ++ deps.logging ++ deps.stream ++ deps.http ++ deps.test)
 
-lazy val gateway = crossProject(JVMPlatform, JSPlatform)
+lazy val gateway = crossProject(JVMPlatform, NativePlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("gateway"))
     .settings(name := "scalacord-gateway")
     .settings(deps.cats ++ deps.json ++ deps.logging ++ deps.stream ++ deps.http ++ deps.test)
 
-lazy val core = crossProject(JVMPlatform, JSPlatform)
+lazy val core = crossProject(JVMPlatform, NativePlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("core"))
     .settings(name := "scalacord-core")
