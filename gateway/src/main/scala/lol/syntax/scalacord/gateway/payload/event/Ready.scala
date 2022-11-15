@@ -7,6 +7,11 @@ import lol.syntax.scalacord.common.entity.*
 import lol.syntax.scalacord.gateway.payload.PayloadData
 import lol.syntax.scalacord.common.util.HasEncoderContext
 
+/** The ready event is dispatched when a client has completed the initial handshake with the gateway
+  * (for new sessions). The ready event can be the largest and most complex event the gateway will
+  * send, as it contains all the state required for a client to begin interacting with the rest of
+  * the platform.
+  */
 object ReadyCodec extends EventPayloadCodec[Ready] {
     override def decoder: Decoder[Ready] = readyDecoder
 
@@ -15,6 +20,26 @@ object ReadyCodec extends EventPayloadCodec[Ready] {
     override def eventId: String = "READY"
 }
 
+/** The ready event is dispatched when a client has completed the initial handshake with the gateway
+  * (for new sessions). The ready event can be the largest and most complex event the gateway will
+  * send, as it contains all the state required for a client to begin interacting with the rest of
+  * the platform.
+  *
+  * @param apiVersion
+  *   [[https://discord.com/developers/docs/reference#api-versioning-api-versions API version]]
+  * @param user
+  *   Information about the user including email
+  * @param guilds
+  *   Guilds the user is in
+  * @param sessionId
+  *   Used for resuming connections
+  * @param resumeGatewayUrl
+  *   Gateway URL for resuming connections
+  * @param shard
+  *   Shard information associated with this session, if sent when identifying
+  * @param application
+  *   Contains id and flags
+  */
 case class Ready(
     apiVersion: Int = 9,
     user: User,

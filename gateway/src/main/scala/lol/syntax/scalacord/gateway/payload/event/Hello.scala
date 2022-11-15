@@ -7,6 +7,7 @@ import lol.syntax.scalacord.common.entity.*
 import lol.syntax.scalacord.gateway.payload.PayloadData
 import lol.syntax.scalacord.common.util.HasEncoderContext
 
+/** Handshake event sent by the gateway after the connection is established. */
 object HelloCodec extends EventPayloadCodec[Hello] {
     override def encoder: Encoder[Hello] = helloEncoder
 
@@ -15,6 +16,10 @@ object HelloCodec extends EventPayloadCodec[Hello] {
     override def eventId: String = "HELLO"
 }
 
+/** Handshake event sent by the gateway after the connection is established.
+  * @param heartbeat_interval
+  *   Interval (in milliseconds) an app should heartbeat with
+  */
 case class Hello(
     val heartbeatInterval: Int
 ) extends PayloadData
