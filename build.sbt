@@ -43,7 +43,7 @@ lazy val common = crossProject(JVMPlatform, NativePlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("common"))
     .settings(name := "scalacord-common")
-    .settings(deps.typelevel ++ deps.json ++ deps.logging ++ deps.stream ++ deps.test)
+    .settings(deps.typelevel ++ deps.json ++ deps.logging ++ deps.test)
 
 lazy val rest = crossProject(JVMPlatform, NativePlatform, JSPlatform)
     .crossType(CrossType.Pure)

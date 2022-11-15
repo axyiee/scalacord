@@ -70,7 +70,7 @@ object User {
 
 given userEncoder: Encoder[User] with
     override def apply(user: User): Json =
-        val elems: List[Option[HasEncoderContext[?]]] =
+        val elems: List[Option[EncodingContext[?]]] =
             (("id", user.id).context)
                 :: (("username", user.username).context)
                 :: (("discriminator", user.discriminator).context)

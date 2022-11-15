@@ -5,7 +5,7 @@ import lol.syntax.scalacord.common.datatype.Optional
 import lol.syntax.scalacord.common.util.{context, optionContext, withOptional}
 import lol.syntax.scalacord.common.entity.*
 import lol.syntax.scalacord.gateway.payload.PayloadData
-import lol.syntax.scalacord.common.util.HasEncoderContext
+import lol.syntax.scalacord.common.util.EncodingContext
 
 /** Handshake event sent by the gateway after the connection is established. */
 object HelloCodec extends EventPayloadCodec[Hello] {
@@ -31,7 +31,7 @@ object Hello {
 
 given helloEncoder: Encoder[Hello] with
     final def apply(hello: Hello): Json =
-        val elems: List[Option[HasEncoderContext[?]]] =
+        val elems: List[Option[EncodingContext[?]]] =
             (("heartbeat_interval", hello.heartbeatInterval).context)
                 :: Nil
         elems.withOptional

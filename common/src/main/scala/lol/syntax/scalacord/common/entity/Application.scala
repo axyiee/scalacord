@@ -79,7 +79,7 @@ object Application {
 
 given applicationEncoder: Encoder[Application] with
     final def apply(application: Application): Json =
-        val elems: List[Option[HasEncoderContext[?]]] =
+        val elems: List[Option[EncodingContext[?]]] =
             (("id", application.id).context)
                 :: (("name", application.name).context)
                 :: (("icon", application.icon).context)

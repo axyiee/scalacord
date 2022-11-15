@@ -24,7 +24,7 @@ import lol.syntax.scalacord.common.entity.User
 import io.circe.parser.decode
 import io.circe.syntax.*
 
-class GatewaySuite extends CatsEffectSuite {
+class EventSuite extends CatsEffectSuite {
     test("can be (de)serialized") {
         IO(Ready(10, User(username = "ReadyEvent")))
             .map(ready => Event(ReadyCodec, ready, 0))

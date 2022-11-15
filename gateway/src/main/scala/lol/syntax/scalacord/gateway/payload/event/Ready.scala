@@ -5,7 +5,7 @@ import lol.syntax.scalacord.common.datatype.Optional
 import lol.syntax.scalacord.common.util.{context, optionContext, withOptional}
 import lol.syntax.scalacord.common.entity.*
 import lol.syntax.scalacord.gateway.payload.PayloadData
-import lol.syntax.scalacord.common.util.HasEncoderContext
+import lol.syntax.scalacord.common.util.EncodingContext
 
 /** The ready event is dispatched when a client has completed the initial handshake with the gateway
   * (for new sessions). The ready event can be the largest and most complex event the gateway will
@@ -57,7 +57,7 @@ object Ready {
 
 given readyEncoder: Encoder[Ready] with
     override def apply(ready: Ready): Json =
-        val elems: List[Option[HasEncoderContext[?]]] =
+        val elems: List[Option[EncodingContext[?]]] =
             (("v", ready.apiVersion).context)
                 :: (("user", ready.user).context)
                 :: (("guilds", ready.guilds).context)

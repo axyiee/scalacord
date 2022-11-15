@@ -29,7 +29,7 @@ object Team {
 
 given teamEncoder: Encoder[Team] with
     final def apply(team: Team): Json =
-        val elems: List[Option[HasEncoderContext[?]]] =
+        val elems: List[Option[EncodingContext[?]]] =
             (("id", team.id).context)
                 :: (("icon", team.icon).context)
                 :: (("members", team.members).context)
