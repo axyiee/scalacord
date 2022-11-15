@@ -1,8 +1,6 @@
 package lol.syntax.scalacord.gateway.payload
 
 import io.circe.{Decoder, Encoder}
-import lol.syntax.scalacord.gateway.payload.event.definition.{Event, EventCodec}
-import lol.syntax.scalacord.gateway.payload.event.{Event, EventCodec}
 
 /** Trait used to distinguish from normal case classes and payload data. This is intended to be used
   * as parameter on [[PayloadCodec]].

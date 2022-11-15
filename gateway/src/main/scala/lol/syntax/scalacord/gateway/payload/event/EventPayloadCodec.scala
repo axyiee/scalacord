@@ -20,5 +20,5 @@ trait EventPayloadCodec[A <: PayloadData] extends PayloadCodec[A] {
 /** An object representing all available event codecs on Scalacord. */
 object Events {
     val Codecs: Map[String, EventPayloadCodec[?]] =
-        List(HelloCodec).map(codec => (codec.eventId, codec)).toMap
+        List(HelloCodec, ReadyCodec).map(codec => (codec.eventId, codec)).toMap
 }

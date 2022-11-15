@@ -19,7 +19,7 @@ case class Team(
     id: Snowflake = Snowflake.MinValue,
     icon: Option[String] = None,
     members: List[TeamMember] = List.empty,
-    ownerUserId: Snowflake.MinValue
+    ownerUserId: Snowflake = Snowflake.MinValue
 )
 
 object Team {
@@ -40,7 +40,7 @@ given teamEncoder: Encoder[Team] with
 given teamDecoder: Decoder[Team] with
     final def apply(c: HCursor): Decoder.Result[Team] =
         for
-            id          <- c.get[Snowflake.MinValue]("id")
+            id          <- c.get[Snowflake]("id")
             icon        <- c.get[Option[String]]("icon")
             members     <- c.get[List[TeamMember]]("members")
             ownerUserId <- c.get[Snowflake]("owner_user_id")

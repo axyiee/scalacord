@@ -17,12 +17,19 @@
 package lol.syntax.scalacord
 
 import munit.CatsEffectSuite
+import cats.effect.IO
+import cats.syntax.all.*
+import lol.syntax.scalacord.gateway.payload.event.*
+import lol.syntax.scalacord.common.entity.User
+import io.circe.parser.decode
+import io.circe.syntax.*
 
-class MainSuite extends CatsEffectSuite {
-
-    test("Main should exit succesfully") {
-        val main = Main.run.attempt
-        assertIO(main, Right(()))
+class GatewaySuite extends CatsEffectSuite {
+    test("can be (de)serialized") {
+        IO(Ready(10, User(username = "ReadyEvent")))
+            .map(ready => Event(ReadyCodec, ready, 0))
+            .flatMap(event => (IO.pure(event), IO(event.asJson.noSpaces)).tupled)
+            .flatMap((event, json) => (IO.pure(event), IO.fromEither(decode[Event](json))).tupled)
+            .flatMap { case (a, b) => IO(assertEquals(a.show, b.show)) }
     }
-
 }
