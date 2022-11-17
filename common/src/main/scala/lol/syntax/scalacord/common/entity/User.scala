@@ -71,21 +71,21 @@ object User {
 given userEncoder: Encoder[User] with
     override def apply(user: User): Json =
         val elems: List[Option[EncodingContext[?]]] =
-            (("id", user.id).context)
-                :: (("username", user.username).context)
-                :: (("discriminator", user.discriminator).context)
-                :: (("avatar", user.avatarHash).context)
-                :: (("mfa_enabled", user.has2FA).optionContext)
-                :: (("bot", user.isBot).optionContext)
-                :: (("system", user.isSystem).optionContext)
-                :: (("banner", user.profile.bannerHash).optionContext)
-                :: (("accent_color", user.profile.accentColor).optionContext)
-                :: (("locale", user.locale).optionContext)
-                :: (("verified", user.isVerified).optionContext)
-                :: (("email", user.email).optionContext)
-                :: (("flags", user.profile.flags).optionContext)
-                :: (("premium_type", user.profile.subscription).optionContext)
-                :: (("public_flags", user.profile.publicFlags).optionContext)
+            ("id", user.id).context
+                :: ("username", user.username).context
+                :: ("discriminator", user.discriminator).context
+                :: ("avatar", user.avatarHash).context
+                :: ("mfa_enabled", user.has2FA).optionContext
+                :: ("bot", user.isBot).optionContext
+                :: ("system", user.isSystem).optionContext
+                :: ("banner", user.profile.bannerHash).optionContext
+                :: ("accent_color", user.profile.accentColor).optionContext
+                :: ("locale", user.locale).optionContext
+                :: ("verified", user.isVerified).optionContext
+                :: ("email", user.email).optionContext
+                :: ("flags", user.profile.flags).optionContext
+                :: ("premium_type", user.profile.subscription).optionContext
+                :: ("public_flags", user.profile.publicFlags).optionContext
                 :: Nil
         elems.withOptional
 

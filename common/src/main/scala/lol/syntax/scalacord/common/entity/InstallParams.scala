@@ -1,13 +1,12 @@
 package lol.syntax.scalacord.common.entity
 
-import io.circe.{Encoder, Decoder}
 import io.circe.generic.semiauto.*
+import io.circe.{Decoder, Encoder}
 import lol.syntax.scalacord.common.datatype.*
-import lol.syntax.scalacord.common.util.*
 
 case class InstallParams(
-    val scopes: List[String] = List.empty,
-    val permissions: String, // TODO: bitflags-based permission system
+    scopes: List[String] = List.empty,
+    permissions: String, // TODO: bitflags-based permission system
 )
 
 object InstallParams {

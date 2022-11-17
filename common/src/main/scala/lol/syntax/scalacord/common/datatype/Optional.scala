@@ -47,23 +47,22 @@ object Optional {
     export lol.syntax.scalacord.common.datatype.optionalDecoder
 }
 
-extension (json: Json)
-    def skipMissing: Json =
-        json.mapObject(
-            _.filter((_, v) =>
-                !v.hcursor.downField("$optional_type").as[String].contains("missing")
-            )
-        )
-
-    def innerOptional: Json =
-        json.mapObject(
-            _.mapValues(v =>
-                v.hcursor.downField("$optional_value").as[Json] match {
-                    case Right(value) => value
-                    case _            => v
-                }
-            )
-        )
+//extension (json: Json)
+//    def skipMissing: Json =
+//        json.mapObject(
+//            _.filter((_, v) =>
+//                !v.hcursor.downField("$optional_type").as[String].contains("missing")
+//            )
+//        )
+//    def innerOptional: Json =
+//        json.mapObject(
+//            _.mapValues(v =>
+//                v.hcursor.downField("$optional_value").as[Json] match {
+//                    case Right(value) => value
+//                    case _            => v
+//                }
+//            )
+//        )
 
 given optionalEncoder[A: Encoder]: Encoder[Optional[A]] with
     final def apply(optional: Optional[A]): Json =

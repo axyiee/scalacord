@@ -80,26 +80,26 @@ object Application {
 given applicationEncoder: Encoder[Application] with
     final def apply(application: Application): Json =
         val elems: List[Option[EncodingContext[?]]] =
-            (("id", application.id).context)
-                :: (("name", application.name).context)
-                :: (("icon", application.icon).context)
-                :: (("description", application.description).context)
-                :: (("rpc_origins", application.rpcOrigins).optionContext)
-                :: (("bot_public", application.isPublic).context)
-                :: (("bot_require_code_grant", application.requireCodeGrant).context)
-                :: (("terms_of_service_url", application.termsOfServiceUrl).optionContext)
-                :: (("privacy_policy_url", application.privacyPolicyUrl).optionContext)
-                :: (("owner", application.owner).optionContext)
-                :: (("verify_key", application.verifyKey).context)
-                :: (("team", application.team).context)
-                :: (("guild_id", application.guildId).optionContext)
-                :: (("primary_sku_id", application.primarySkuId).optionContext)
-                :: (("slug", application.slug).optionContext)
-                :: (("cover_image", application.coverImage).optionContext)
-                :: (("flags", application.flags).optionContext)
-                :: (("tags", application.tags).optionContext)
-                :: (("install_params", application.installParams).optionContext)
-                :: (("custom_install_url", application.customInstallUrl).optionContext)
+            ("id", application.id).context
+                :: ("name", application.name).context
+                :: ("icon", application.icon).context
+                :: ("description", application.description).context
+                :: ("rpc_origins", application.rpcOrigins).optionContext
+                :: ("bot_public", application.isPublic).context
+                :: ("bot_require_code_grant", application.requireCodeGrant).context
+                :: ("terms_of_service_url", application.termsOfServiceUrl).optionContext
+                :: ("privacy_policy_url", application.privacyPolicyUrl).optionContext
+                :: ("owner", application.owner).optionContext
+                :: ("verify_key", application.verifyKey).context
+                :: ("team", application.team).context
+                :: ("guild_id", application.guildId).optionContext
+                :: ("primary_sku_id", application.primarySkuId).optionContext
+                :: ("slug", application.slug).optionContext
+                :: ("cover_image", application.coverImage).optionContext
+                :: ("flags", application.flags).optionContext
+                :: ("tags", application.tags).optionContext
+                :: ("install_params", application.installParams).optionContext
+                :: ("custom_install_url", application.customInstallUrl).optionContext
                 :: Nil
         elems.withOptional
 

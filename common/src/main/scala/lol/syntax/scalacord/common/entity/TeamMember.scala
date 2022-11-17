@@ -30,10 +30,10 @@ object TeamMember {
 given teamMemberEncoder: Encoder[TeamMember] with
     final def apply(member: TeamMember): Json =
         val elems: List[Option[EncodingContext[?]]] =
-            (("user", member.user).context)
-                :: (("team_id", member.teamId).context)
-                :: (("permissions", member.permissions).context)
-                :: (("membership_state", member.membershipState).context)
+            ("user", member.user).context
+                :: ("team_id", member.teamId).context
+                :: ("permissions", member.permissions).context
+                :: ("membership_state", member.membershipState).context
                 :: Nil
         elems.withOptional
 
