@@ -86,11 +86,7 @@ case class DiscordGateway[F[_]: Async](
     private def receive0: Pipe[F, WSDataFrame, Unit] =
         in =>
             in.through(settings.io.decode)
-                .flatMap(json =>
-                    Stream
-                        .fromEither(json.as[GatewayPayload])
-                        .handleErrorWith(_ => { println("ai"); Stream.empty })
-                )
+                .flatMap(json => Stream.fromEither(json.as[GatewayPayload]))
                 .through(inbound.publish)
 
     private def send(connection: WSConnectionHighLevel[F]): Stream[F, Unit] =
