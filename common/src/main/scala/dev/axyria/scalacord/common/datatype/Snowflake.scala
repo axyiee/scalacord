@@ -5,8 +5,8 @@ import io.circe.Decoder.Result
 import io.circe.{Decoder, Encoder, HCursor, Json}
 import spire.math.{UByte, ULong}
 
-import java.time.Instant
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.{FiniteDuration, DurationInt, DurationLong}
+import cats.instances.finiteDuration
 
 type Snowflake = Snowflake.Type
 
@@ -14,8 +14,8 @@ type Snowflake = Snowflake.Type
   *
   * Snowflakes are a kind of entity identification format released originally by
   * [[https://twitter.com Twitter]] in late 2010, then being utilized in companies
-  * [https://discord.com/developers/docs/reference#snowflakes like Discord] in their internal stru
-  * cturing. A snowflake is nothing more than a 64-bit unsigned integer (Long) ID with a
+  * [https://discord.com/developers/docs/reference#snowflakes like Discord] in their internal
+  * structuring. A snowflake is nothing more than a 64-bit unsigned integer (Long) ID with a
   * [[timestamp]], which can make them comparable to others. This case class implements [[ZeroType]]
   * in order to be considered a value class, which reduces the performance overhead over
   * instantiating new objects unnecessarily.
@@ -29,14 +29,14 @@ object Snowflake extends ZeroType[ULong] {
     val Epoch: ULong = ULong(1420070400000L)
 
     /** The minimum value for a snowflake. */
-    val MinValue = apply(Instant.ofEpochMilli(Epoch.toLong)).toOption.get
+    val MinValue = apply(Epoch.toLong.milliseconds).toOption.get
 
     /** The maximum value for a snowflake. */
     val MaxValue = Snowflake(ULong(Long.MaxValue))
 
     /** Builds a snowflake identifier from a timestamp. */
-    def apply(timestamp: Instant): Either[IllegalArgumentException, Snowflake] =
-        val long = timestamp.toEpochMilli()
+    def apply(timestamp: FiniteDuration): Either[IllegalArgumentException, Snowflake] =
+        val long = timestamp.toMillis
         if long < ULong.MinValue.toLong then
             return Left(new IllegalArgumentException("Timestamp is too low!"))
         if long > Long.MaxValue.toLong then
@@ -51,8 +51,8 @@ object Snowflake extends ZeroType[ULong] {
         /** Returns the instant over the milliseconds since Discord Epoch, the first second of 2015
           * or 1420070400000.
           */
-        def timestamp: Instant =
-            Instant.ofEpochMilli(self.millisecondsSinceDiscordEpoch + Epoch.toLong)
+        def timestamp: FiniteDuration =
+            (self.millisecondsSinceDiscordEpoch + Epoch.toLong).milliseconds
 
         /** Returns the internal worker ID of this snowflake. */
         def internalWorkerId: UByte = UByte(((self.value.toLong & 0x3e0000) >> 17).toByte)
@@ -65,12 +65,10 @@ object Snowflake extends ZeroType[ULong] {
 
         // credits for this workaround: kordlib/kord
         // snowflake timestamps aren't 100% accurate, it can be off by 1ms
-        def matches(instant: Instant): Boolean =
+        def matches(duration: FiniteDuration): Boolean =
             val delta = 1.millisecond - 1.nanosecond
-            val range = instant
-                .minusMillis(delta.toMillis)
-                .toEpochMilli to instant.plusMillis(delta.toMillis).toEpochMilli
-            range.contains(self.timestamp.toEpochMilli)
+            val range = (duration.toNanos - delta.toNanos) to (duration.toNanos + delta.toNanos)
+            range.contains(self.timestamp.toNanos)
 
     export dev.axyria.scalacord.common.datatype.snowflakeEncoder
     export dev.axyria.scalacord.common.datatype.snowflakeDecoder

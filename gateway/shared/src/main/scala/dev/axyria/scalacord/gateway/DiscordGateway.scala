@@ -10,7 +10,6 @@ import cats.effect.std.Queue
 import cats.syntax.all.*
 import dev.axyria.scalacord.gateway.job.GatewayJob
 import dev.axyria.scalacord.gateway.payload.GatewayPayload
-import dev.axyria.scalacord.gateway.platform.WsClientPlatform
 import fs2.Pipe
 import fs2.Stream
 import fs2.concurrent.Topic
@@ -87,7 +86,11 @@ case class DiscordGateway[F[_]: Async](
     private def receive0: Pipe[F, WSDataFrame, Unit] =
         in =>
             in.through(settings.io.decode)
-                .flatMap(json => Stream.fromEither(json.as[GatewayPayload]))
+                .flatMap(json =>
+                    Stream
+                        .fromEither(json.as[GatewayPayload])
+                        .handleErrorWith(_ => { println("ai"); Stream.empty })
+                )
                 .through(inbound.publish)
 
     private def send(connection: WSConnectionHighLevel[F]): Stream[F, Unit] =
@@ -114,26 +117,4 @@ case class DiscordGateway[F[_]: Async](
             connection <- Stream.resource(client.connectHighLevel(WSRequest(url)))
             _          <- initialize(connection)
         } yield connection
-}
-
-object DiscordGateway {
-    import dev.axyria.scalacord.common.entity.Shard
-    import dev.axyria.scalacord.gateway.decoder.TransportCompressedMessageIo
-    import java.util.zip.Inflater
-
-    def apply[F[_]: Async](
-        token: String,
-        shard: Option[Shard] = None
-    ): Stream[F, DiscordGateway[F]] =
-        (
-            Stream.resource(WsClientPlatform[F]),
-            Stream.eval(Topic[F, GatewayPayload]),
-            Stream.eval(Queue.unbounded[F, GatewayPayload]),
-            Stream.eval(Ref.of[F, Option[ULong]](None)),
-            Stream.eval(Ref.of[F, Option[FiniteDuration]](None)),
-            Stream
-                .eval(Ref.of[F, Option[Inflater]](None))
-                .map(ref => TransportCompressedMessageIo[F](ref))
-                .map(io => DiscordGatewaySettings(token, io, shard)),
-        ).mapN(DiscordGateway[F](_, _, _, _, _, _))
 }

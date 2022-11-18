@@ -5,13 +5,22 @@ import io.circe.generic.semiauto.*
 import io.circe.parser.{decode, parse}
 import io.circe.syntax.*
 import cats.effect.IO
+import dev.axyria.scalacord.common.util.*
 import io.circe.Decoder.Result
 import munit.CatsEffectSuite
 
 case class Hello(x: Optional[Int], z: String, c: Optional[Long], d: String, e: Optional[Long])
 
 object Hello {
-    given encoder: Encoder[Hello] = deriveEncoder[Hello].mapJson(_.skipMissing.innerOptional)
+    given encoder: Encoder[Hello] with
+        final def apply(a: Hello): Json =
+            List(
+                ("x", a.x).optionContext,
+                ("z", a.z).context,
+                ("c", a.c).optionContext,
+                ("d", a.d).context,
+                ("e", a.e).optionContext
+            ).withOptional
 
     given decoder: Decoder[Hello] = deriveDecoder
 }

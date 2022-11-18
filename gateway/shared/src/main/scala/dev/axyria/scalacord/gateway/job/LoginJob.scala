@@ -24,13 +24,16 @@ case class LoginJob[F[_]: Sync](client: DiscordGateway[F]) extends GatewayJob[F]
                     Stream
                         .emit(
                             Identify(
-                                client.settings.token,
-                                Optional.keepOrMiss(client.settings.shard),
-                                client.settings.io.kind == CompressionKind.Payload,
+                                token = client.settings.token,
+                                shard = Optional.keepOrMiss(client.settings.shard),
+                                compress = client.settings.io.kind == CompressionKind.Payload,
+                                largeThreshold = client.settings.largeThreshold,
+                                intents = client.settings.intents,
+                                presence = Optional.keepOrMiss(client.settings.presence),
                             )
                         )
                         .evalMap(identify => client.send(IdentifyCodec.toPayload(identify)))
-                case _        => Stream.empty
+                case _ => Stream.empty
             }
         }
 }

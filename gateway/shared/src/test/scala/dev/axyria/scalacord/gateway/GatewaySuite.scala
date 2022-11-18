@@ -13,7 +13,10 @@ class GatewaySuite extends CatsEffectSuite {
             .flatMap { option =>
                 option match {
                     case Some(token) =>
-                        DiscordGateway[IO](s"Bot $token").flatTap(_.connect()).compile.drain
+                        Gateway[IO](s"Bot $token")
+                            .flatTap(_.connect())
+                            .compile
+                            .drain
                     case None => IO.println("Token not provided. Skipping...")
                 }
             }

@@ -1,11 +1,12 @@
 package dev.axyria.scalacord.gateway.payload.command
 
-import dev.axyria.scalacord.common.datatype.Optional
-import dev.axyria.scalacord.common.entity.Shard
+import dev.axyria.scalacord.common.datatype.*
+import dev.axyria.scalacord.common.entity.{Shard, PresenceUpdate}
 import dev.axyria.scalacord.common.util.*
 import dev.axyria.scalacord.gateway.payload.PayloadData
 import io.circe.generic.semiauto.*
 import io.circe.{Decoder, Encoder, HCursor, Json}
+import dev.axyria.scalacord.gateway.datatype.Intent
 
 /** An initial handshake with the Gateway that's required before the app can begin sending or
   * receiving most Gateway events.
@@ -40,10 +41,10 @@ case class Identify(
     token: String,
     shard: Optional[Shard] = Optional.missing,
     compress: Boolean = false,
-    intents: Int = 1 << 0, // todo: intent support
+    intents: List[Intent] = List(Intent.Guilds),
     largeThreshold: Int = 50,
     properties: IdentifyProperties = IdentifyProperties(),
-    // presence: Optional[Presence] = Optional.missing, // todo
+    presence: Optional[PresenceUpdate] = Optional.missing,
 ) extends PayloadData
 
 case class IdentifyProperties(
@@ -70,7 +71,7 @@ given identifyEncoder: Encoder[Identify] with
                 :: ("compress", identify.compress).context
                 :: ("large_threshold", identify.largeThreshold).context
                 :: ("shard", identify.shard).optionContext
-                // :: ("presence", identify.presence).optionContext
+                :: ("presence", identify.presence).optionContext
                 :: ("intents", identify.intents).context
                 :: Nil
         elems.withOptional
@@ -83,8 +84,8 @@ given identifyDecoder: Decoder[Identify] with
             compress       <- cursor.get[Boolean]("compress")
             largeThreshold <- cursor.get[Int]("large_threshold")
             shard          <- cursor.get[Optional[Shard]]("shard")
-            // presence <- cursor.get[Optional[Presence]]("presence")
-            intents <- cursor.get[Int]("intents")
+            presence       <- cursor.get[Optional[PresenceUpdate]]("presence")
+            intents        <- cursor.get[List[Intent]]("intents")
         } yield Identify(
             token,
             shard,
@@ -92,5 +93,5 @@ given identifyDecoder: Decoder[Identify] with
             intents,
             largeThreshold,
             properties,
-            /*presence*/
+            presence
         )
