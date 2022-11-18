@@ -8,6 +8,6 @@ To use the latest version, include the following in your `build.sbt`:
 
 ```scala
 libraryDependencies ++= Seq(
-  "lol.syntax" %% "scalacord-core" % "@VERSION@"
+  "dev.axyria" %% "scalacord-core" % "@VERSION@"
 )
 ```

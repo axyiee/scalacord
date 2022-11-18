@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package lol.syntax.scalacord
+package dev.axyria.scalacord
 
 import munit.CatsEffectSuite
 

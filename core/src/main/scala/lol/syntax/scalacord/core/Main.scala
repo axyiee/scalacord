@@ -1,6 +1,7 @@
-package lol.syntax.scalacord.core
+package dev.axyria.scalacord.core
 
-import cats.effect.{IO, IOApp}
+import cats.effect.IO
+import cats.effect.IOApp
 
 object Main extends IOApp.Simple {
 
