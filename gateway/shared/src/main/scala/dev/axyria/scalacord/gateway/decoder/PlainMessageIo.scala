@@ -5,7 +5,8 @@ import fs2.Stream
 import io.circe.Json
 import io.circe.parser.parse
 import io.circe.syntax.EncoderOps
-import org.http4s.client.websocket.{WSDataFrame, WSFrame}
+import org.http4s.client.websocket.WSDataFrame
+import org.http4s.client.websocket.WSFrame
 
 /** A implementation of [[MessageIo]] for non-compressed streams.
   * @tparam F

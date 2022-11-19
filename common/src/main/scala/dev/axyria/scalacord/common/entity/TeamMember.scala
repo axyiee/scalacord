@@ -2,7 +2,10 @@ package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
 import dev.axyria.scalacord.common.util.*
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** Represents a Discord team member.
   *
@@ -23,8 +26,8 @@ case class TeamMember(
 )
 
 object TeamMember {
-    export dev.axyria.scalacord.common.entity.teamMemberEncoder
     export dev.axyria.scalacord.common.entity.teamMemberDecoder
+    export dev.axyria.scalacord.common.entity.teamMemberEncoder
 }
 
 given teamMemberEncoder: Encoder[TeamMember] with

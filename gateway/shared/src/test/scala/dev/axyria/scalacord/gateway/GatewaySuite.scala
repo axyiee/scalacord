@@ -1,9 +1,10 @@
 package dev.axyria.scalacord.gateway
 
-import munit.CatsEffectSuite
 import cats.effect.IO
 import cats.implicits.*
-import scala.concurrent.duration.{Duration, DurationInt}
+import munit.CatsEffectSuite
+import scala.concurrent.duration.Duration
+import scala.concurrent.duration.DurationInt
 
 class GatewaySuite extends CatsEffectSuite {
     override def munitIOTimeout: Duration = 10.minutes

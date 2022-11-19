@@ -1,12 +1,16 @@
 package dev.axyria.scalacord.gateway.payload.command
 
 import dev.axyria.scalacord.common.datatype.*
-import dev.axyria.scalacord.common.entity.{Shard, PresenceUpdate}
+import dev.axyria.scalacord.common.entity.PresenceUpdate
+import dev.axyria.scalacord.common.entity.Shard
 import dev.axyria.scalacord.common.util.*
-import dev.axyria.scalacord.gateway.payload.PayloadData
-import io.circe.generic.semiauto.*
-import io.circe.{Decoder, Encoder, HCursor, Json}
 import dev.axyria.scalacord.gateway.datatype.Intent
+import dev.axyria.scalacord.gateway.payload.PayloadData
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
+import io.circe.generic.semiauto.*
 
 /** An initial handshake with the Gateway that's required before the app can begin sending or
   * receiving most Gateway events.
@@ -59,8 +63,8 @@ object IdentifyProperties {
 }
 
 object Identify {
-    export dev.axyria.scalacord.gateway.payload.command.identifyEncoder
     export dev.axyria.scalacord.gateway.payload.command.identifyDecoder
+    export dev.axyria.scalacord.gateway.payload.command.identifyEncoder
 }
 
 given identifyEncoder: Encoder[Identify] with

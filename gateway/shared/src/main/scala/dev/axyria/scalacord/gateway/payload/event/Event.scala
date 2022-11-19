@@ -1,8 +1,9 @@
 package dev.axyria.scalacord.gateway.payload.event
 
 import cats.Show
-import dev.axyria.scalacord.gateway.payload.{GatewayPayload, PayloadData}
 import dev.axyria.scalacord.common.datatype.Optional
+import dev.axyria.scalacord.gateway.payload.GatewayPayload
+import dev.axyria.scalacord.gateway.payload.PayloadData
 import io.circe.*
 import io.circe.Decoder.Result
 import io.circe.DecodingFailure.Reason.CustomReason

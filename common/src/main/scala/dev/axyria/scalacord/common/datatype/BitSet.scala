@@ -1,6 +1,7 @@
 package dev.axyria.scalacord.common.datatype
 
-import io.circe.{Encoder, Decoder}
+import io.circe.Decoder
+import io.circe.Encoder
 
 /** A simple helper for working with bitsets. A bitset is, as the name suggests, a number composed
   * by a set of bits. Each bit can be either 0 or 1 and the number is composed by the bits from

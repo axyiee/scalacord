@@ -2,7 +2,10 @@ package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
 import dev.axyria.scalacord.common.util.*
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** Represents an application on discord. most of the times, it will be related to a bot.
   * @param id
@@ -73,8 +76,8 @@ case class Application(
 )
 
 object Application {
-    export dev.axyria.scalacord.common.entity.applicationEncoder
     export dev.axyria.scalacord.common.entity.applicationDecoder
+    export dev.axyria.scalacord.common.entity.applicationEncoder
 }
 
 given applicationEncoder: Encoder[Application] with

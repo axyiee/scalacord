@@ -2,7 +2,10 @@ package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
 import dev.axyria.scalacord.common.util.*
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** The assets for an active [[Activity]].
   * @param largeImage
@@ -22,8 +25,8 @@ case class ActivityAssets(
 )
 
 object ActivityAssets {
-    export dev.axyria.scalacord.common.entity.activityAssetsEncoder
     export dev.axyria.scalacord.common.entity.activityAssetsDecoder
+    export dev.axyria.scalacord.common.entity.activityAssetsEncoder
 }
 
 given activityAssetsEncoder: Encoder[ActivityAssets] with

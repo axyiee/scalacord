@@ -1,8 +1,11 @@
 package dev.axyria.scalacord.gateway.datatype
 
 import dev.axyria.scalacord.common.datatype.*
+import io.circe.Decoder
 import io.circe.Decoder.Result
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** Maintaining a stateful application can be difficult when it comes to the amount of data your app
   * is expected to process over a Gateway connection, especially at scale. Gateway intents are a

@@ -2,7 +2,10 @@ package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
 import dev.axyria.scalacord.common.util.*
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** An activity of a user, which is displayed in the user's presence. Bots are only able to send
   * [[name]], [[type]], and optionally [[url]].
@@ -57,8 +60,8 @@ case class Activity(
 )
 
 object Activity {
-    export dev.axyria.scalacord.common.entity.activityEncoder
     export dev.axyria.scalacord.common.entity.activityDecoder
+    export dev.axyria.scalacord.common.entity.activityEncoder
 }
 
 given activityEncoder: Encoder[Activity] with

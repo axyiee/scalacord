@@ -1,14 +1,19 @@
 package dev.axyria.scalacord.gateway.payload.event
 
+import dev.axyria.scalacord.common.datatype.Optional
+import dev.axyria.scalacord.common.entity.*
+import dev.axyria.scalacord.common.entity.PartialApplication
 import dev.axyria.scalacord.common.entity.Shard
 import dev.axyria.scalacord.common.entity.UnavailableGuild
-import dev.axyria.scalacord.common.entity.PartialApplication
-import dev.axyria.scalacord.common.datatype.Optional
-import dev.axyria.scalacord.common.util.{context, optionContext, withOptional}
-import dev.axyria.scalacord.common.entity.*
-import dev.axyria.scalacord.gateway.payload.PayloadData
 import dev.axyria.scalacord.common.util.EncodingContext
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import dev.axyria.scalacord.common.util.context
+import dev.axyria.scalacord.common.util.optionContext
+import dev.axyria.scalacord.common.util.withOptional
+import dev.axyria.scalacord.gateway.payload.PayloadData
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** The ready event is dispatched when a client has completed the initial handshake with the gateway
   * (for new sessions). The ready event can be the largest and most complex event the gateway will
@@ -54,8 +59,8 @@ case class Ready(
 ) extends PayloadData
 
 object Ready {
-    export dev.axyria.scalacord.gateway.payload.event.readyEncoder
     export dev.axyria.scalacord.gateway.payload.event.readyDecoder
+    export dev.axyria.scalacord.gateway.payload.event.readyEncoder
 }
 
 given readyEncoder: Encoder[Ready] with

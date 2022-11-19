@@ -1,6 +1,7 @@
 package dev.axyria.scalacord.gateway.payload.event
 
-import dev.axyria.scalacord.gateway.payload.{PayloadCodec, PayloadData}
+import dev.axyria.scalacord.gateway.payload.PayloadCodec
+import dev.axyria.scalacord.gateway.payload.PayloadData
 import io.circe.Encoder
 
 object EventPayloadCodec {

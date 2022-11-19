@@ -1,7 +1,10 @@
 package dev.axyria.scalacord.common.entity
 
+import io.circe.Decoder
 import io.circe.Decoder.Result
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** The active Discord Nitro subscription for an user account. */
 enum NitroSubscription(val value: Int) {
@@ -13,8 +16,8 @@ enum NitroSubscription(val value: Int) {
 
     case Basic extends NitroSubscription(3)
 
-    export dev.axyria.scalacord.common.entity.subscriptionEncoder
     export dev.axyria.scalacord.common.entity.subscriptionDecoder
+    export dev.axyria.scalacord.common.entity.subscriptionEncoder
 }
 
 given subscriptionEncoder: Encoder[NitroSubscription] with

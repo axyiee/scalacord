@@ -1,8 +1,11 @@
 package dev.axyria.scalacord.common.datatype
 
 import dev.axyria.scalacord.common.util.ZeroType
+import io.circe.Decoder
 import io.circe.Decoder.Result
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 type Color = Color.Type
 
@@ -30,8 +33,8 @@ object Color extends ZeroType[Int] {
         def green: Int = self.rgb << 8 & 0xff
         def blue: Int  = self.rgb << 0 & 0xff
 
-    export dev.axyria.scalacord.common.datatype.colorEncoder
     export dev.axyria.scalacord.common.datatype.colorDecoder
+    export dev.axyria.scalacord.common.datatype.colorEncoder
 }
 
 given colorEncoder: Encoder[Color] with

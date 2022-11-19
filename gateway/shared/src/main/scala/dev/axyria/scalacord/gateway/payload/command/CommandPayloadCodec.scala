@@ -1,6 +1,8 @@
 package dev.axyria.scalacord.gateway.payload.command
 
-import dev.axyria.scalacord.gateway.payload.{GatewayPayload, PayloadCodec, PayloadData}
+import dev.axyria.scalacord.gateway.payload.GatewayPayload
+import dev.axyria.scalacord.gateway.payload.PayloadCodec
+import dev.axyria.scalacord.gateway.payload.PayloadData
 import io.circe.Encoder
 
 /** A payload codec trait driven especially for gateway commands.

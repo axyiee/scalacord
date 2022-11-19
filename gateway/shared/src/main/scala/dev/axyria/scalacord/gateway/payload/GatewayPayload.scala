@@ -2,7 +2,8 @@ package dev.axyria.scalacord.gateway.payload
 
 import dev.axyria.scalacord.common.datatype.*
 import dev.axyria.scalacord.common.util.*
-import dev.axyria.scalacord.gateway.payload.event.{Event, Events}
+import dev.axyria.scalacord.gateway.payload.event.Event
+import dev.axyria.scalacord.gateway.payload.event.Events
 import io.circe.*
 import io.circe.DecodingFailure.Reason.CustomReason
 import io.circe.generic.semiauto.*
@@ -41,8 +42,8 @@ case class GatewayPayload(
 }
 
 object GatewayPayload {
-    export dev.axyria.scalacord.gateway.payload.payloadEncoder
     export dev.axyria.scalacord.gateway.payload.payloadDecoder
+    export dev.axyria.scalacord.gateway.payload.payloadEncoder
 }
 
 given payloadEncoder: Encoder[GatewayPayload] with

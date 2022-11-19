@@ -1,6 +1,9 @@
 package dev.axyria.scalacord.common.entity
 
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** A type representing shard information for a bot application. It is encoded as an array in the
   * format: [(current, num_shards]).
@@ -8,8 +11,8 @@ import io.circe.{Decoder, Encoder, HCursor, Json}
 case class Shard(current: Int, count: Int)
 
 object Shard {
-    export dev.axyria.scalacord.common.entity.shardEncoder
     export dev.axyria.scalacord.common.entity.shardDecoder
+    export dev.axyria.scalacord.common.entity.shardEncoder
 }
 
 given shardEncoder: Encoder[Shard] with

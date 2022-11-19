@@ -1,13 +1,14 @@
 package dev.axyria.scalacord.gateway.job
 
-import cats.effect.kernel.{Async, Concurrent}
+import cats.effect.kernel.Async
+import cats.effect.kernel.Concurrent
 import cats.effect.syntax.all.*
 import cats.kernel.Monoid
 import cats.syntax.all.*
 import dev.axyria.scalacord.gateway.DiscordGateway
 import dev.axyria.scalacord.gateway.payload.GatewayPayload
-import fs2.Stream
 import dev.axyria.scalacord.gateway.payload.event.Event
+import fs2.Stream
 
 /** A simple internal handler for whenever [[DiscordWebSocket]] receive new payloads.
   * @tparam F

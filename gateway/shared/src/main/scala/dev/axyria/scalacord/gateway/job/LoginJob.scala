@@ -1,16 +1,17 @@
 package dev.axyria.scalacord.gateway.job
 
 import cats.effect.kernel.Sync
+import cats.syntax.all.*
 import dev.axyria.scalacord.common.datatype.Optional
 import dev.axyria.scalacord.gateway.DiscordGateway
 import dev.axyria.scalacord.gateway.decoder.CompressionKind
 import dev.axyria.scalacord.gateway.payload.GatewayPayload
-import dev.axyria.scalacord.gateway.payload.command.{Identify, IdentifyCodec}
-import dev.axyria.scalacord.gateway.payload.event.Hello
-import fs2.Stream
-import cats.syntax.all.*
-import dev.axyria.scalacord.gateway.payload.event.Ready
+import dev.axyria.scalacord.gateway.payload.command.Identify
+import dev.axyria.scalacord.gateway.payload.command.IdentifyCodec
 import dev.axyria.scalacord.gateway.payload.event.Event
+import dev.axyria.scalacord.gateway.payload.event.Hello
+import dev.axyria.scalacord.gateway.payload.event.Ready
+import fs2.Stream
 
 /** A job for providing our identity to Gateway as a step of authentication.
   *

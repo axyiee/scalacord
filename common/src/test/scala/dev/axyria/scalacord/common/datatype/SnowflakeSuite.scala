@@ -1,13 +1,13 @@
 package dev.axyria.scalacord.common.datatype
 
-import munit.CatsEffectSuite
 import cats.effect.IO
 import cats.syntax.all.*
-
-import scala.concurrent.duration.{DurationInt, DurationLong}
-import math.Ordered.orderingToOrdered
-import io.circe.syntax._
 import io.circe.parser.decode
+import io.circe.syntax._
+import math.Ordered.orderingToOrdered
+import munit.CatsEffectSuite
+import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.DurationLong
 
 class SnowflakeSuite extends CatsEffectSuite {
     test("it is comparable") {

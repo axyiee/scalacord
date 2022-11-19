@@ -1,8 +1,9 @@
 package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
+import io.circe.Decoder
+import io.circe.Encoder
 import io.circe.generic.semiauto.*
-import io.circe.{Decoder, Encoder}
 
 case class InstallParams(
     scopes: List[String] = List.empty,

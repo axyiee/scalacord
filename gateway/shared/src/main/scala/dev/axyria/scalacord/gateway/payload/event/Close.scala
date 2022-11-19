@@ -1,7 +1,10 @@
 package dev.axyria.scalacord.gateway.payload.event
 
 import dev.axyria.scalacord.gateway.payload.PayloadData
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 import io.circe.generic.semiauto.*
 
 /** Artificial event used to indicate connection closing. */

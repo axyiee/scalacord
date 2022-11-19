@@ -46,8 +46,8 @@ object Optional {
 
     inline def missing[A]: Optional[A] = Missing.asInstanceOf
 
-    export dev.axyria.scalacord.common.datatype.optionalEncoder
     export dev.axyria.scalacord.common.datatype.optionalDecoder
+    export dev.axyria.scalacord.common.datatype.optionalEncoder
 }
 
 //extension (json: Json)

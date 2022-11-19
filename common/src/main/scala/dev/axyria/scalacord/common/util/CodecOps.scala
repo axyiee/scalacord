@@ -1,7 +1,10 @@
 package dev.axyria.scalacord.common.util
 
-import dev.axyria.scalacord.common.datatype.{Keep, Missing, Optional}
-import io.circe.{Encoder, Json}
+import dev.axyria.scalacord.common.datatype.Keep
+import dev.axyria.scalacord.common.datatype.Missing
+import dev.axyria.scalacord.common.datatype.Optional
+import io.circe.Encoder
+import io.circe.Json
 
 case class EncodingContext[A: Encoder](encoder: Encoder[A], key: String, value: A)
 

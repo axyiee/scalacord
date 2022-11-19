@@ -2,7 +2,10 @@ package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
 import dev.axyria.scalacord.common.util.*
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** Represents an emoji on Discord.
   *
@@ -35,8 +38,8 @@ case class Emoji(
 )
 
 object Emoji {
-    export dev.axyria.scalacord.common.entity.emojiEncoder
     export dev.axyria.scalacord.common.entity.emojiDecoder
+    export dev.axyria.scalacord.common.entity.emojiEncoder
 }
 
 given emojiEncoder: Encoder[Emoji] with

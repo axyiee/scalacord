@@ -18,12 +18,12 @@ to thank the following people for helping me in this journey of Scala learning:
 This project is still in development, so it's not ready for production yet. Although it is getting pretty solid,
 there are still a lot of things to be done.
 
-😄 Contribution is welcome, so if you want to help, feel free to open an issue or a pull request.
+😄 Any kind of contribution is welcome, so if you want to help, feel free to open an issue or pull request.
 
 - [x] Bitset helper support
 - [x] Serialization support through circe
 - [x] Scaladoc
-- [ ] Gateway support
+- [x] Gateway support
 - - [x] Identification
 - - [x] Heartbeats
 - - [x] Sharding

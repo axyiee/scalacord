@@ -1,11 +1,16 @@
 package dev.axyria.scalacord.gateway.payload.event
 
 import dev.axyria.scalacord.common.datatype.Optional
-import dev.axyria.scalacord.common.util.{context, optionContext, withOptional}
 import dev.axyria.scalacord.common.entity.*
-import dev.axyria.scalacord.gateway.payload.PayloadData
 import dev.axyria.scalacord.common.util.EncodingContext
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import dev.axyria.scalacord.common.util.context
+import dev.axyria.scalacord.common.util.optionContext
+import dev.axyria.scalacord.common.util.withOptional
+import dev.axyria.scalacord.gateway.payload.PayloadData
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** Handshake event sent by the gateway after the connection is established. */
 object HelloCodec extends EventPayloadCodec[Hello] {
@@ -25,8 +30,8 @@ object HelloCodec extends EventPayloadCodec[Hello] {
 case class Hello(heartbeatInterval: Long) extends PayloadData
 
 object Hello {
-    export dev.axyria.scalacord.gateway.payload.event.helloEncoder
     export dev.axyria.scalacord.gateway.payload.event.helloDecoder
+    export dev.axyria.scalacord.gateway.payload.event.helloEncoder
 }
 
 given helloEncoder: Encoder[Hello] with

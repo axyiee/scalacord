@@ -2,7 +2,10 @@ package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
 import dev.axyria.scalacord.common.util.*
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** The party an [[Activity]] may belong to.
   * @param id
@@ -19,8 +22,8 @@ case class ActivityParty(
 )
 
 object ActivityParty {
-    export dev.axyria.scalacord.common.entity.activityPartyEncoder
     export dev.axyria.scalacord.common.entity.activityPartyDecoder
+    export dev.axyria.scalacord.common.entity.activityPartyEncoder
 }
 
 given activityPartyEncoder: Encoder[ActivityParty] with

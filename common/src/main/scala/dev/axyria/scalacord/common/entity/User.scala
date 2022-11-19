@@ -2,7 +2,10 @@ package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
 import dev.axyria.scalacord.common.util.*
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** Reference about an user profile.
   * @param bannerHash
@@ -64,8 +67,8 @@ case class User(
 )
 
 object User {
-    export dev.axyria.scalacord.common.entity.userEncoder
     export dev.axyria.scalacord.common.entity.userDecoder
+    export dev.axyria.scalacord.common.entity.userEncoder
 }
 
 given userEncoder: Encoder[User] with

@@ -1,8 +1,11 @@
 package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
+import io.circe.Decoder
 import io.circe.Decoder.Result
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** All permissions an [[User]] or [[Role]] can have on a Discord server. It is encoded and decoded
   * as a bitset using a custom codec. ca

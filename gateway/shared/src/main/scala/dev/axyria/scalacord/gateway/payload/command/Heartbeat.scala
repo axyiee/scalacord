@@ -1,7 +1,10 @@
 package dev.axyria.scalacord.gateway.payload.command
 
 import dev.axyria.scalacord.gateway.payload.PayloadData
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** Used to maintain an active gateway connection. */
 object HeartbeatCodec extends CommandPayloadCodec[Heartbeat] {
@@ -19,8 +22,8 @@ object HeartbeatCodec extends CommandPayloadCodec[Heartbeat] {
 case class Heartbeat(sequence: Option[Long]) extends PayloadData
 
 object Heartbeat {
-    export dev.axyria.scalacord.gateway.payload.command.heartbeatEncoder
     export dev.axyria.scalacord.gateway.payload.command.heartbeatDecoder
+    export dev.axyria.scalacord.gateway.payload.command.heartbeatEncoder
 }
 
 given heartbeatEncoder: Encoder[Heartbeat] with

@@ -1,8 +1,9 @@
 package dev.axyria.scalacord.gateway
 
-import dev.axyria.scalacord.common.entity.{Shard, PresenceUpdate}
-import dev.axyria.scalacord.gateway.decoder.MessageIo
+import dev.axyria.scalacord.common.entity.PresenceUpdate
+import dev.axyria.scalacord.common.entity.Shard
 import dev.axyria.scalacord.gateway.datatype.Intent
+import dev.axyria.scalacord.gateway.decoder.MessageIo
 import org.http4s.Uri
 
 /** Properties taken in consideration to create a connection into the Discord Gateway.

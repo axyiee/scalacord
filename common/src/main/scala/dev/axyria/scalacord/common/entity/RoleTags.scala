@@ -2,7 +2,10 @@ package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
 import dev.axyria.scalacord.common.util.*
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** The tags a [[Role]] can have.
   * @param botId
@@ -19,8 +22,8 @@ case class RoleTags(
 )
 
 object RoleTags {
-    export dev.axyria.scalacord.common.entity.roleTagsEncoder
     export dev.axyria.scalacord.common.entity.roleTagsDecoder
+    export dev.axyria.scalacord.common.entity.roleTagsEncoder
 }
 
 given roleTagsEncoder: Encoder[RoleTags] with

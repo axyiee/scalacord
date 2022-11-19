@@ -1,12 +1,17 @@
 package dev.axyria.scalacord.common.datatype
 
-import dev.axyria.scalacord.common.util.ZeroType
-import io.circe.Decoder.Result
-import io.circe.{Decoder, Encoder, HCursor, Json}
-import spire.math.{UByte, ULong}
-
-import scala.concurrent.duration.{FiniteDuration, DurationInt, DurationLong}
 import cats.instances.finiteDuration
+import dev.axyria.scalacord.common.util.ZeroType
+import io.circe.Decoder
+import io.circe.Decoder.Result
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
+import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.DurationLong
+import scala.concurrent.duration.FiniteDuration
+import spire.math.UByte
+import spire.math.ULong
 
 type Snowflake = Snowflake.Type
 
@@ -70,8 +75,8 @@ object Snowflake extends ZeroType[ULong] {
             val range = (duration.toNanos - delta.toNanos) to (duration.toNanos + delta.toNanos)
             range.contains(self.timestamp.toNanos)
 
-    export dev.axyria.scalacord.common.datatype.snowflakeEncoder
     export dev.axyria.scalacord.common.datatype.snowflakeDecoder
+    export dev.axyria.scalacord.common.datatype.snowflakeEncoder
 }
 
 given snowflakeOrdered: Ordering[Snowflake] with

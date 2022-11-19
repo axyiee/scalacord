@@ -1,8 +1,11 @@
 package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
+import io.circe.Decoder
 import io.circe.Decoder.Result
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** The flags (can also be represented as badges) for an [[Activity]]. */
 enum ActivityFlag(val value: Int) extends BitSet[ActivityFlag] {

@@ -1,6 +1,7 @@
 package dev.axyria.scalacord.common.util
 
-import io.circe.{Decoder, Encoder}
+import io.circe.Decoder
+import io.circe.Encoder
 import io.circe.generic.semiauto.*
 
 trait ZeroType[Source] {

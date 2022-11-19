@@ -2,7 +2,10 @@ package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
 import dev.axyria.scalacord.common.util.*
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** The ecrets for an [[Activity]].
   * @param join
@@ -19,8 +22,8 @@ case class ActivitySecrets(
 )
 
 object ActivitySecrets {
-    export dev.axyria.scalacord.common.entity.activitySecretsEncoder
     export dev.axyria.scalacord.common.entity.activitySecretsDecoder
+    export dev.axyria.scalacord.common.entity.activitySecretsEncoder
 }
 
 given activitySecretsEncoder: Encoder[ActivitySecrets] with

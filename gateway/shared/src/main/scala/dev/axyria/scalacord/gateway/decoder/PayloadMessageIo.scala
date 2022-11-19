@@ -1,12 +1,15 @@
 package dev.axyria.scalacord.gateway.decoder
 
-import cats.effect.kernel.{Spawn, Sync, Ref}
+import cats.effect.kernel.Ref
+import cats.effect.kernel.Spawn
+import cats.effect.kernel.Sync
 import cats.kernel.Monoid
 import fs2.Stream
 import io.circe.Json
 import io.circe.parser.parse
-import org.http4s.client.websocket.{WSDataFrame, WSFrame}
 import java.util.zip.Inflater
+import org.http4s.client.websocket.WSDataFrame
+import org.http4s.client.websocket.WSFrame
 
 /** A implementation of [[MessageIo]] for possibly compressed streams.
   *

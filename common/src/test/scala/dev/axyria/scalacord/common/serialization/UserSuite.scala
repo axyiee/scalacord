@@ -3,7 +3,9 @@ package dev.axyria.scalacord.common.serialization
 import cats.effect.IO
 import cats.syntax.all.*
 import dev.axyria.scalacord.common.datatype.Keep
-import dev.axyria.scalacord.common.entity.{User, userDecoder, userEncoder}
+import dev.axyria.scalacord.common.entity.User
+import dev.axyria.scalacord.common.entity.userDecoder
+import dev.axyria.scalacord.common.entity.userEncoder
 import io.circe.parser.decode
 import io.circe.syntax.*
 import munit.CatsEffectSuite

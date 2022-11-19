@@ -2,7 +2,10 @@ package dev.axyria.scalacord.common.entity
 
 import dev.axyria.scalacord.common.datatype.*
 import dev.axyria.scalacord.common.util.*
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Decoder
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** Roles represent a set of permissions attached to a group of users. Roles have names, colors, and
   * can be "pinned" to the side bar, causing their members to be listed separately. Roles can have
@@ -47,8 +50,8 @@ case class Role(
 )
 
 object Role {
-    export dev.axyria.scalacord.common.entity.roleEncoder
     export dev.axyria.scalacord.common.entity.roleDecoder
+    export dev.axyria.scalacord.common.entity.roleEncoder
 }
 
 given roleEncoder: Encoder[Role] with

@@ -1,12 +1,13 @@
 package dev.axyria.scalacord.common.datatype
 
-import io.circe.*
-import io.circe.generic.semiauto.*
-import io.circe.parser.{decode, parse}
-import io.circe.syntax.*
 import cats.effect.IO
 import dev.axyria.scalacord.common.util.*
+import io.circe.*
 import io.circe.Decoder.Result
+import io.circe.generic.semiauto.*
+import io.circe.parser.decode
+import io.circe.parser.parse
+import io.circe.syntax.*
 import munit.CatsEffectSuite
 
 case class Hello(x: Optional[Int], z: String, c: Optional[Long], d: String, e: Optional[Long])

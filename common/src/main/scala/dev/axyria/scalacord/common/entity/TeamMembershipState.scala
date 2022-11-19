@@ -1,7 +1,10 @@
 package dev.axyria.scalacord.common.entity
 
+import io.circe.Decoder
 import io.circe.Decoder.Result
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.Encoder
+import io.circe.HCursor
+import io.circe.Json
 
 /** The state (whether the invite was accepted) of a team membership. */
 enum TeamMembershipState(val value: Int) {
