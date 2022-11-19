@@ -25,10 +25,11 @@ trait GatewayJob[F[_]] {
 object GatewayJob {
     def all[F[_]: Async](client: DiscordGateway[F]): F[GatewayJob[F]] =
         (
-            HeartbeatingJob(client),
+            Async[F].delay(SequenceJob(client)),
             Async[F].delay(LoginJob(client)),
-            Async[F].delay(EventLoggingJob[F])
-        ).tupled.map { case (a, b, c) => Monoid[GatewayJob[F]].combineAll(List(a, b, c)) }
+            Async[F].delay(EventLoggingJob[F]),
+            HeartbeatingJob(client),
+        ).tupled.map { tuple => Monoid[GatewayJob[F]].combineAll(tuple.toList) }
 
     given jobMonoid[F[_]: Concurrent]: Monoid[GatewayJob[F]] with
         def empty: GatewayJob[F] = new GatewayJob[F] {
