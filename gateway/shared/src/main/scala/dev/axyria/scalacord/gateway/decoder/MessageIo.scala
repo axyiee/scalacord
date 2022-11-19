@@ -26,7 +26,7 @@ trait MessageIo[F[_]] {
     def encode(input: Stream[F, Json]): Stream[F, WSDataFrame]
 
     /** Set-up the required elements to encode/decode in each session. */
-    def setup(): Stream[F, Unit]
+    def setup: Stream[F, Unit]
 }
 
 object MessageIo {
@@ -47,17 +47,18 @@ enum CompressionKind {
         case _         => uri.removeQueryParam("compress")
     }).withQueryParam("encoding", "json"))
 }
+
 given messageIoMonoid[F[_]: Concurrent]: Monoid[MessageIo[F]] with
     override def empty: MessageIo[F] = new MessageIo[F]:
         override def kind: CompressionKind                                  = CompressionKind.None
-        override def setup(): Stream[F, Unit]                               = Stream.empty
+        override def setup: Stream[F, Unit]                                 = Stream.empty
         override def decode(input: Stream[F, WSDataFrame]): Stream[F, Json] = Stream.empty
         override def encode(input: Stream[F, Json]): Stream[F, WSDataFrame] = Stream.empty
 
     override def combine(x: MessageIo[F], y: MessageIo[F]): MessageIo[F] = new MessageIo[F]:
         override def kind: CompressionKind =
             if x.kind == CompressionKind.None then y.kind else x.kind
-        override def setup(): Stream[F, Unit] = x.setup() concurrently y.setup()
+        override def setup: Stream[F, Unit] = x.setup.flatMap(_ => y.setup)
         override def decode(input: Stream[F, WSDataFrame]): Stream[F, Json] =
             x.decode(input) ifEmpty y.decode(input)
         override def encode(input: Stream[F, Json]): Stream[F, WSDataFrame] =

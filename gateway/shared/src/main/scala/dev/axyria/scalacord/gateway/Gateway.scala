@@ -1,16 +1,17 @@
 package dev.axyria.scalacord.gateway
 
-import dev.axyria.scalacord.gateway.payload.GatewayPayload
-import dev.axyria.scalacord.gateway.datatype.Intent
-import fs2.Stream
-import org.http4s.client.websocket.WSConnectionHighLevel
-import scala.concurrent.duration.FiniteDuration
-import org.http4s.Uri
+import cats.effect.kernel.Async
+import cats.effect.kernel.Concurrent
+import cats.effect.kernel.Ref
 import cats.effect.std.Queue
-import fs2.concurrent.Topic
-import cats.effect.kernel.{Async, Ref}
-import spire.math.ULong
 import cats.syntax.all.*
+import dev.axyria.scalacord.gateway.datatype.Intent
+import dev.axyria.scalacord.gateway.payload.GatewayPayload
+import fs2.Stream
+import fs2.concurrent.Topic
+import org.http4s.Uri
+import scala.concurrent.duration.FiniteDuration
+import spire.math.ULong
 
 /** A general-purpose simple I/O consumer of the Discord Gateway.
   * @tparam F
@@ -33,11 +34,12 @@ trait Gateway[F[_]] {
       */
     def connect(
         url: Uri = Uri.unsafeFromString("wss://gateway.discord.gg/?v=10")
-    ): Stream[F, WSConnectionHighLevel[F]]
+    )(using Concurrent[F]): Stream[F, Unit]
 }
 
 object Gateway {
-    import dev.axyria.scalacord.common.entity.{Shard, PresenceUpdate}
+    import dev.axyria.scalacord.common.entity.PresenceUpdate
+    import dev.axyria.scalacord.common.entity.Shard
     import dev.axyria.scalacord.gateway.decoder.TransportCompressedMessageIo
     import dev.axyria.scalacord.gateway.platform.WsClientPlatform
     import java.util.zip.Inflater

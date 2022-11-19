@@ -25,5 +25,5 @@ class PlainMessageIo[F[_]: Spawn] extends MessageIo[F] {
     def encode(input: Stream[F, Json]): Stream[F, WSDataFrame] =
         input.map(json => WSFrame.Text(json.noSpaces))
 
-    def setup(): Stream[F, Unit] = Stream.empty
+    def setup: Stream[F, Unit] = Stream.empty
 }

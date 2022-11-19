@@ -1,16 +1,19 @@
 package dev.axyria.scalacord.gateway.decoder
 
 import cats.Monad
-import cats.effect.kernel.{Deferred, Ref, Sync}
+import cats.effect.kernel.Deferred
+import cats.effect.kernel.Ref
+import cats.effect.kernel.Sync
 import cats.implicits.*
 import fs2.Stream
 import io.circe.Json
 import io.circe.parser.parse
 import io.circe.syntax.EncoderOps
-import org.http4s.client.websocket.{WSDataFrame, WSFrame}
-
 import java.io.ByteArrayOutputStream
-import java.util.zip.{Inflater, InflaterOutputStream}
+import java.util.zip.Inflater
+import java.util.zip.InflaterOutputStream
+import org.http4s.client.websocket.WSDataFrame
+import org.http4s.client.websocket.WSFrame
 
 /** A implementation of [[MessageIo]] for transport-compressed streams.
   *
@@ -20,7 +23,7 @@ import java.util.zip.{Inflater, InflaterOutputStream}
 case class TransportCompressedMessageIo[F[_]: Sync](
     inflater: Ref[F, Option[Inflater]]
 ) extends MessageIo[F] {
-    def setup(): Stream[F, Unit] = Stream.eval(inflater.set(Some(new Inflater())))
+    def setup: Stream[F, Unit] = Stream.eval(inflater.set(Some(new Inflater())))
 
     def kind: CompressionKind = CompressionKind.Transport
 
@@ -28,35 +31,28 @@ case class TransportCompressedMessageIo[F[_]: Sync](
         input.flatMap {
             case WSFrame.Binary(data, _) =>
                 Stream
-                    .eval(inflater.get)
-                    .flatMap {
-                        case Some(inf) => Stream.emit(inf)
-                        case None =>
-                            Stream.raiseError(
-                                new NoSuchElementException("Inflater was not set up.")
-                            )
+                    .bracket(Sync[F].delay(ByteArrayOutputStream())) { out =>
+                        Sync[F].delay(out.close())
                     }
-                    .map(inf => (inf, ByteArrayOutputStream()))
-                    .map((inf, byteOutput) =>
-                        (inf, byteOutput, InflaterOutputStream(byteOutput, inf))
+                    .product(
+                        Stream.eval(inflater.get).flatMap {
+                            case Some(inf) => Stream.emit(inf)
+                            case None =>
+                                Stream.raiseError(new Exception("Inflater not initialized"))
+                        }
                     )
-                    .flatMap((_, byteOutput, infOutput) =>
-                        (
-                            Stream.bracket(Sync[F].delay(infOutput))(infOutput =>
-                                Sync[F].delay(infOutput.close())
-                            ),
-                            Stream.bracket(Sync[F].delay(byteOutput))(byteOutput =>
-                                Sync[F].delay(byteOutput.close())
-                            )
-                        ).tupled
-                    )
-                    .flatMap((infOutput, byteOutput) =>
+                    .flatMap { case (out, infl) =>
                         Stream
-                            .eval(Sync[F].delay(infOutput.write(data.toArray)))
-                            .flatMap(_ => Stream.eval(Sync[F].delay(byteOutput.toByteArray)))
-                            .flatMap(bytes => Stream.emit(new String(bytes, "UTF-8")))
-                    )
-                    .flatMap(string => Stream.fromEither(parse(string)))
+                            .bracket(Sync[F].delay(new InflaterOutputStream(out, infl))) { out2 =>
+                                Sync[F].delay(out2.close())
+                            }
+                            .tupleLeft(out)
+                    }
+                    .flatTap { case (out, out2) =>
+                        Stream.eval(Sync[F].delay(out2.write(data.toArray)))
+                    }
+                    .map { case (out, out2) => String(out.toByteArray, 0, out.size(), "UTF-8") }
+                    .flatMap { input => Stream.fromEither(parse(input)) }
             // case WSFrame.Close(code, reason) =>
             //    Stream.emit(GatewayPayload(-1, Close(code, reason).asJson).asJson)
             case _ => Stream.empty

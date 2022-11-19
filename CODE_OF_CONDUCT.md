@@ -11,6 +11,6 @@ channels.
 
 If you have any questions, concerns, or moderation requests, please contact a member of the project.
 
-- [Pedro Henrique](mailto:me@syntax.lol)
+- [Pedro Henrique](mailto:me@axyria.dev)
 
-[Scala Code of Conduct]: https://scala-lang.org/conduct/
+[scala code of conduct]: https://scala-lang.org/conduct/

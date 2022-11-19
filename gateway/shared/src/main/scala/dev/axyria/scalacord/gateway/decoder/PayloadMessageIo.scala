@@ -27,6 +27,5 @@ case class PayloadMessageIo[F[_]: Sync: Spawn](inflater: Ref[F, Option[Inflater]
     def encode(input: Stream[F, Json]): Stream[F, WSDataFrame] =
         io.encode(input)
 
-    def setup(): Stream[F, Unit] =
-        io.setup()
+    def setup: Stream[F, Unit] = io.setup
 }

@@ -10,6 +10,7 @@ import dev.axyria.scalacord.gateway.payload.event.Hello
 import fs2.Stream
 import cats.syntax.all.*
 import dev.axyria.scalacord.gateway.payload.event.Ready
+import dev.axyria.scalacord.gateway.payload.event.Event
 
 /** A job for providing our identity to Gateway as a step of authentication.
   *
@@ -17,9 +18,10 @@ import dev.axyria.scalacord.gateway.payload.event.Ready
   *   A type-class able to suspend side effects into the [[F]] context.
   */
 case class LoginJob[F[_]: Sync](client: DiscordGateway[F]) extends GatewayJob[F] {
-    override def entrypoint(payload: GatewayPayload): Stream[F, Unit] =
-        Stream.fromEither(payload.event).flatMap { event =>
-            event.data match {
+    override def entrypoint(payload: GatewayPayload, event: Stream[F, Event]): Stream[F, Unit] =
+        event
+            .map(event => event.data)
+            .flatMap {
                 case _: Hello =>
                     Stream
                         .emit(
@@ -35,5 +37,4 @@ case class LoginJob[F[_]: Sync](client: DiscordGateway[F]) extends GatewayJob[F]
                         .evalMap(identify => client.send(IdentifyCodec.toPayload(identify)))
                 case _ => Stream.empty
             }
-        }
 }

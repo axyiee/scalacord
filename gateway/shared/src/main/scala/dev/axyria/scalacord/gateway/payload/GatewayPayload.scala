@@ -29,7 +29,10 @@ case class GatewayPayload(
     lazy val event: Either[DecodingFailure, Event] = Events
         .get(t.toOption, op)
         .toRight(
-            DecodingFailure(CustomReason(s"Codec not found for [$op, ${t.toOption}]"), d.hcursor)
+            DecodingFailure(
+                CustomReason(s"Codec not found for [$op, ${t.toOption}]"),
+                d.hcursor
+            )
         )
         .flatMap { co =>
             val event = co.decoder(d.hcursor)
