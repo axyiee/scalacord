@@ -42,7 +42,7 @@ object Gateway {
     import dev.axyria.scalacord.common.entity.Shard
     import dev.axyria.scalacord.gateway.decoder.TransportCompressedMessageIo
     import dev.axyria.scalacord.gateway.platform.WsClientPlatform
-    import java.util.zip.Inflater
+    import fs2.compression.Compression
 
     def apply[F[_]: Async](
         token: String,
@@ -58,7 +58,7 @@ object Gateway {
             Stream.eval(Ref.of[F, Option[ULong]](None)),
             Stream.eval(Ref.of[F, Option[FiniteDuration]](None)),
             Stream
-                .eval(Ref.of[F, Option[Inflater]](None))
+                .eval(Ref.of[F, Option[Compression[F]]](None))
                 .map(ref => TransportCompressedMessageIo[F](ref))
                 .map(io =>
                     DiscordGatewaySettings(token, io, shard, largeThreshold, presence, intents)
