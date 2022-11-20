@@ -78,7 +78,7 @@ lazy val gateway = crossProject(JVMPlatform)
     // .jsSettings(deps.httpJs)
     .dependsOn(common)
 
-lazy val core = crossProject(JVMPlatform, JSPlatform)
+lazy val core = crossProject(JVMPlatform)
     .crossType(CrossType.Pure)
     .in(file("core"))
     .settings(name := "scalacord-core", semanticdbEnabled := true)
