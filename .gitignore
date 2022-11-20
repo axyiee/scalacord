@@ -6,6 +6,7 @@ target/
 .metals
 .bsp
 metals.sbt
+*.semanticdb
 
 ### IntelliJ IDEA ###
 .idea

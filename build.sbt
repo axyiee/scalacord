@@ -9,8 +9,8 @@ ThisBuild / developers       := List(tlGitHubDev("FromSyntax", "Pedro Henrique")
 // publish to s01.oss.sonatype.org (set to true to publish to oss.sonatype.org instead)
 ThisBuild / tlSonatypeUseLegacyHost := false
 
-ThisBuild / scalaVersion      := "3.2.1"
-ThisBuild / semanticdbEnabled := true
+ThisBuild / scalaVersion                                   := "3.2.1"
+ThisBuild / semanticdbEnabled                              := true
 ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
 
 lazy val deps = new {
@@ -21,7 +21,8 @@ lazy val deps = new {
             "org.typelevel" %%% "spire"       % "0.18.0"
         )
     )
-    val stream = Seq(libraryDependencies ++= Seq("co.fs2" %%% "fs2-core" % "3.3.0"))
+    val stream   = Seq(libraryDependencies ++= Seq("co.fs2" %%% "fs2-core" % "3.3.0"))
+    val streamIo = Seq(libraryDependencies ++= Seq("co.fs2" %%% "fs2-io" % "3.3.0"))
     val http = Seq(
         libraryDependencies ++= Seq("client", "circe").map(a =>
             "org.http4s" %%% ("http4s-" ++ a) % "0.23.16"
@@ -66,19 +67,22 @@ lazy val rest = crossProject(JVMPlatform, NativePlatform, JSPlatform)
     .settings(deps.typelevel ++ deps.json ++ deps.logging ++ deps.stream ++ deps.http ++ deps.test)
     .dependsOn(common)
 
-lazy val gateway = crossProject(JVMPlatform, JSPlatform)
+lazy val gateway = crossProject(JVMPlatform)
     .crossType(CrossType.Full)
     .in(file("gateway"))
     .settings(name := "scalacord-gateway", semanticdbEnabled := true)
-    .settings(deps.typelevel ++ deps.json ++ deps.logging ++ deps.stream ++ deps.http ++ deps.test)
+    .settings(
+        deps.typelevel ++ deps.json ++ deps.logging ++ deps.stream ++ deps.streamIo ++ deps.http ++ deps.test
+    )
     .jvmSettings(deps.httpJvm)
-    .jsSettings(deps.httpJs)
+    // .jsSettings(deps.httpJs)
     .dependsOn(common)
 
 lazy val core = crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("core"))
     .settings(name := "scalacord-core", semanticdbEnabled := true)
+    .aggregate(common, rest, gateway)
     .dependsOn(common, rest, gateway)
 
 lazy val root = tlCrossRootProject.aggregate(core)

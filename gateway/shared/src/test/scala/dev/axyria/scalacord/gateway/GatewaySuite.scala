@@ -11,15 +11,13 @@ class GatewaySuite extends CatsEffectSuite {
 
     test("it connects") {
         IO(Option(System.getenv("TEST_TOKEN")))
-            .flatMap { option =>
-                option match {
-                    case Some(token) =>
-                        Gateway[IO](s"Bot $token")
-                            .flatTap(_.connect())
-                            .compile
-                            .drain
-                    case None => IO.println("Token not provided. Skipping...")
-                }
+            .flatMap {
+                case Some(token) =>
+                    Gateway[IO](s"Bot $token")
+                        .flatTap(_.connect())
+                        .compile
+                        .drain
+                case None => IO.println("Token not provided. Skipping...")
             }
     }
 }

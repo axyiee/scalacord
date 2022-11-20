@@ -15,8 +15,8 @@ to thank the following people for helping me in this journey of Scala learning:
 
 ## ☑️ Status of the project
 
-This project is still in development, so it's not ready for production yet. Although it is getting pretty solid,
-there are still a lot of things to be done.
+This project is still in development, so it's not ready for production yet. Although it is getting pretty
+solid, there are still a lot of things to be done.
 
 😄 Any kind of contribution is welcome, so if you want to help, feel free to open an issue or pull request.
 
@@ -24,18 +24,18 @@ there are still a lot of things to be done.
 - [x] Serialization support through circe
 - [x] Scaladoc
 - [x] Gateway support
-- - [x] Identification
+- - [x] Identify
 - - [x] Heartbeats
 - - [x] Sharding
 - - [x] Intents
-- - [x] Compression support
+- - [x] Cross-platform-friendly compression support
 - - [x] Payload, command and event codec (decoding/encoding)
 - - [x] Event publishing and subscription
 - - [x] Ping and latency calculation
-- - [ ] Identification rate limiting
+- - [ ] Identifying rate limiting
 - - [ ] Reconnection and resuming system
 - - [ ] Implementation of all events and commands
-- - [ ] Scala Native support - can't be done until http4s support it
+- - [ ] Scala JS and Native support - can't be done until http4s/wsclient support it
 - [ ] Caching support
 - [ ] REST support
 - - [ ] Routes, requests and responses
